@@ -102,14 +102,15 @@ const ChatWindow = ({
             <div
               key={message.id}
               className={`flex mb-4 ${
-                isCurrentUser ? "justify-end" : "justify-start"
+                isCurrentUser ? "justify-start md:justify-end" : "justify-start"
               }`}
             >
               {!isCurrentUser && (
-                <div className="mr-2">
+                <div className="mr-2 hidden md:block">
                   <div className="bg-gray-200 dark:bg-gray-600 border-2 border-dashed rounded-xl w-8 h-8" />
                 </div>
               )}
+
               <div
                 className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg p-3 ${
                   isCurrentUser
@@ -154,7 +155,9 @@ const ChatWindow = ({
 
                 <div
                   className={`text-xs mt-1 ${
-                    isCurrentUser ? "text-indigo-200" : "text-gray-500 dark:text-gray-300"
+                    isCurrentUser
+                      ? "text-indigo-200"
+                      : "text-gray-500 dark:text-gray-300"
                   }`}
                 >
                   {formatTime(message.timestamp)}
@@ -177,7 +180,8 @@ const ChatWindow = ({
                   {attachedFile.name}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-300">
-                  {attachedFile.type} • {(attachedFile.size / 1024).toFixed(1)} KB
+                  {attachedFile.type} • {(attachedFile.size / 1024).toFixed(1)}{" "}
+                  KB
                 </p>
               </div>
             </div>
