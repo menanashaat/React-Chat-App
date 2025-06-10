@@ -13,8 +13,8 @@ type Props = {
   isUploading: boolean;
   uploadProgress: number;
   onSendMessage: () => void;
-  fileInputRef: RefObject<HTMLInputElement | null>; // <-- Allow null
-  messagesEndRef: RefObject<HTMLDivElement | null>; // <-- Allow null
+  fileInputRef: RefObject<HTMLInputElement | null>;
+  messagesEndRef: RefObject<HTMLDivElement | null>;
   isBroadcasting: boolean;
   selectedUsers: string[];
   toggleUserSelection: (id: string) => void;
@@ -44,10 +44,10 @@ const ChatWindow = ({
   return (
     <div className="flex-1 flex flex-col">
       {/* Chat Header */}
-      <div className="bg-white border-b border-gray-200 p-4 flex items-center">
+      <div className="bg-white dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 p-4 flex items-center">
         {isBroadcasting ? (
           <div className="flex items-center w-full">
-            <span className="text-indigo-600 font-medium mr-2">
+            <span className="text-indigo-600 dark:text-indigo-300 font-medium mr-2">
               Broadcast to:
             </span>
             <div className="flex flex-wrap gap-2">
@@ -56,12 +56,12 @@ const ChatWindow = ({
                 return user ? (
                   <span
                     key={userId}
-                    className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-sm flex items-center"
+                    className="bg-indigo-100 dark:bg-indigo-800 text-indigo-800 dark:text-indigo-200 px-2 py-1 rounded-full text-sm flex items-center"
                   >
                     {user.name}
                     <button
                       onClick={() => toggleUserSelection(userId)}
-                      className="ml-1 text-indigo-600 hover:text-indigo-800"
+                      className="ml-1 text-indigo-600 dark:text-indigo-300 hover:text-indigo-800 dark:hover:text-indigo-100"
                     >
                       ×
                     </button>
@@ -73,19 +73,19 @@ const ChatWindow = ({
         ) : (
           <>
             <div className="relative">
-              <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
+              <div className="bg-gray-200 dark:bg-gray-600 border-2 border-dashed rounded-xl w-10 h-10" />
               {getUserById(activeChat)?.isOnline && (
-                <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border-2 border-white"></div>
+                <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border-2 border-white dark:border-gray-700"></div>
               )}
             </div>
             <div className="ml-3">
-              <h3 className="font-medium text-gray-900">
+              <h3 className="font-medium text-gray-900 dark:text-gray-100">
                 {getUserById(activeChat)?.name}
               </h3>
               {getUserById(activeChat)?.isOnline ? (
                 <p className="text-xs text-green-500">Online</p>
               ) : (
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-300">
                   Last seen {getUserById(activeChat)?.lastSeen || "recently"}
                 </p>
               )}
@@ -95,7 +95,7 @@ const ChatWindow = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800">
         {messages.map((message) => {
           const isCurrentUser = message.senderId === "current";
           return (
@@ -107,14 +107,14 @@ const ChatWindow = ({
             >
               {!isCurrentUser && (
                 <div className="mr-2">
-                  <div className="bg-gray-200 border-2 border-dashed rounded-xl w-8 h-8" />
+                  <div className="bg-gray-200 dark:bg-gray-600 border-2 border-dashed rounded-xl w-8 h-8" />
                 </div>
               )}
               <div
                 className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg p-3 ${
                   isCurrentUser
                     ? "bg-indigo-600 text-white rounded-tr-none"
-                    : "bg-white text-gray-800 rounded-tl-none border border-gray-200"
+                    : "bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-tl-none border border-gray-200 dark:border-gray-600"
                 }`}
               >
                 {message.isBroadcast && (
@@ -122,7 +122,9 @@ const ChatWindow = ({
                     <span className="mr-1">📢</span>
                     <span
                       className={
-                        isCurrentUser ? "text-indigo-200" : "text-gray-500"
+                        isCurrentUser
+                          ? "text-indigo-200"
+                          : "text-gray-500 dark:text-gray-300"
                       }
                     >
                       Broadcast
@@ -152,7 +154,7 @@ const ChatWindow = ({
 
                 <div
                   className={`text-xs mt-1 ${
-                    isCurrentUser ? "text-indigo-200" : "text-gray-500"
+                    isCurrentUser ? "text-indigo-200" : "text-gray-500 dark:text-gray-300"
                   }`}
                 >
                   {formatTime(message.timestamp)}
@@ -165,18 +167,17 @@ const ChatWindow = ({
       </div>
 
       {/* Input Area */}
-      <div className="bg-white border-t border-gray-200 p-4">
+      <div className="bg-white dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600 p-4">
         {attachedFile && (
-          <div className="mb-3 flex items-center justify-between p-2 bg-indigo-50 rounded-lg">
+          <div className="mb-3 flex items-center justify-between p-2 bg-indigo-50 dark:bg-indigo-900 rounded-lg">
             <div className="flex items-center">
-              <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10 mr-2" />
+              <div className="bg-gray-200 dark:bg-gray-600 border-2 border-dashed rounded-xl w-10 h-10 mr-2" />
               <div>
-                <p className="text-sm font-medium text-gray-900 truncate max-w-xs">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate max-w-xs">
                   {attachedFile.name}
                 </p>
-                <p className="text-xs text-gray-500">
-                  {attachedFile.type} • {(attachedFile.size / 1024).toFixed(1)}
-                  KB
+                <p className="text-xs text-gray-500 dark:text-gray-300">
+                  {attachedFile.type} • {(attachedFile.size / 1024).toFixed(1)} KB
                 </p>
               </div>
             </div>
@@ -191,13 +192,13 @@ const ChatWindow = ({
 
         {isUploading && (
           <div className="mb-3">
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
               <div
                 className="bg-indigo-600 h-2.5 rounded-full"
                 style={{ width: `${uploadProgress}%` }}
               ></div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
               Uploading {uploadProgress}%
             </p>
           </div>
@@ -205,7 +206,7 @@ const ChatWindow = ({
 
         <div className="flex">
           <button
-            className="p-2 text-gray-500 hover:text-indigo-600"
+            className="p-2 text-gray-500 dark:text-gray-300 hover:text-indigo-600"
             onClick={() => fileInputRef.current?.click()}
           >
             <svg
@@ -241,7 +242,7 @@ const ChatWindow = ({
                 ? "Type a broadcast message..."
                 : "Type a message..."
             }
-            className="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             onKeyPress={(e) => e.key === "Enter" && onSendMessage()}
           />
           <button

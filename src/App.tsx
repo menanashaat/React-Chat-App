@@ -5,7 +5,8 @@ import ProtectedRoute from './auth/ProtectedRoute';
 import Login from './pages/Login';
 import ChatPage from './pages/ChatPage';
 import NotFound from './pages/NotFound';
-
+import { ThemeProvider } from './store/context/ThemeContext';
+import { ThemeWrapper } from './components/layout/ThemeWrapper';
 function App() {
   return (
     <AuthProvider>
@@ -16,7 +17,11 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <ChatPage />
+                 <ThemeProvider>
+                  <ThemeWrapper>
+                    <ChatPage />
+                  </ThemeWrapper>
+                </ThemeProvider>
               </ProtectedRoute>
             }
           />

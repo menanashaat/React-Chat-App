@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 type ChatHeaderProps = {
   isBroadcasting: boolean;
@@ -9,7 +10,7 @@ type ChatHeaderProps = {
 
 const ChatHeader = ({ isBroadcasting, onToggleBroadcast, onLogout }: ChatHeaderProps) => {
   return (
-    <header className="bg-indigo-600 text-white shadow-md">
+    <header className="bg-indigo-600 dark:bg-gray-800 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
           <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
@@ -32,6 +33,9 @@ const ChatHeader = ({ isBroadcasting, onToggleBroadcast, onLogout }: ChatHeaderP
           >
             Logout
           </button>
+        </div>
+         <div className="flex items-center">
+          <ThemeToggle />
         </div>
       </div>
     </header>
